@@ -235,6 +235,8 @@ async function displayConversations() {
                 currentConversationId =
                     conversation.id;
 
+                startMessagesAutoRefresh();
+
 
                 console.log(
                     "Conversation sélectionnée :",
@@ -492,6 +494,46 @@ async function getMessages(conversationId) {
 
     return data;
 }
+
+
+
+let messagesRefreshInterval = null;
+
+function startMessagesAutoRefresh() {
+
+    // Éviter de créer plusieurs intervalles
+    if (messagesRefreshInterval) {
+        clearInterval(messagesRefreshInterval);
+    }
+
+    messagesRefreshInterval = setInterval(async () => {
+
+        // S'il n'y a aucune conversation ouverte
+        if (!currentConversationId) {
+            return;
+        }
+
+        try {
+
+            const messagesResponse =
+                await getMessages(currentConversationId);
+
+            const messages =
+                messagesResponse.data.messages;
+
+            displayMessages(messages);
+
+        } catch (error) {
+
+            console.error(
+                "Erreur lors de l'actualisation des messages :",
+                error
+            );
+        }
+
+    }, 2000);
+}
+
 
 
 function displayMessages(messages) {
