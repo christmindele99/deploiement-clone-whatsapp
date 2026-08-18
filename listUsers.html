@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadea Chat/Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="flex h-screen overflow-hidden">
+        <aside class="hidden md:flex bg-gray-100 w-15">
+            <nav class="flex flex-col justify-between h-screen items-center md:p-4">
+                <header class="iconMenu md:gap-5 flex flex-col justify-center" id="iconMenu">
+                    <button class="text-gray-700 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 256 256">
+                            <path d="M0 0h256v256H0z" fill="none" />
+                            <path fill="currentColor" d="M216 48H40a16 16 0 0 0-16 16v160a15.84 15.84 0 0 0 9.25 14.5A16.05 16.05 0 0 0 40 240a15.9 15.9 0 0 0 10.25-3.78l.09-.07L83 208h133a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16m0 144H80a8 8 0 0 0-5.23 1.95L40 224V64h176Z" />
+                        </svg>
+                    </button>
+                    <button class="chatUsers cursor-pointer text-gray-700 flex items-center justify-center rounded-lg" id="btnChatConversation">
+                        <svg class="font-bold" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6 14h8v-2H6zm0-3h12V9H6zm0-3h12V6H6zM2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm3.15-6H20V4H4v13.125zM4 16V4z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="text-gray-700" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z" />
+                        </svg>
+                    </button>
+                    <button class="profilUsers cursor-pointer text-gray-700" id="btnListUsers">
+                        <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M9.175 10.825Q8 9.65 8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12t-2.825-1.175M4 20v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20zm2-2h12v-.8q0-.275-.137-.5t-.363-.35q-1.35-.675-2.725-1.012T12 15t-2.775.338T6.5 16.35q-.225.125-.363.35T6 17.2zm7.413-8.587Q14 8.825 14 8t-.587-1.412T12 6t-1.412.588T10 8t.588 1.413T12 10t1.413-.587M12 18" />
+                        </svg>
+                    </button>
+                    <button class=" cursor-pointer">
+                        <svg class="text-gray-700" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="m12 18l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14zM5 8v11h14V8zm0 13q-.825 0-1.412-.587T3 19V6.525q0-.35.113-.675t.337-.6L4.7 3.725q.275-.35.687-.538T6.25 3h11.5q.45 0 .863.188t.687.537l1.25 1.525q.225.275.338.6t.112.675V19q0 .825-.587 1.413T19 21zm.4-15h13.2l-.85-1H6.25zm6.6 7.5" />
+                        </svg>
+                    </button>
+                    <button class=" cursor-pointer" id="connectBtn">
+                        <svg class="text-gray-700" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98m-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2" />
+                        </svg>
+                    </button>
+                </header>
+                <main>
+                    <button class=" cursor-pointer bg-blue-500 text-white rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
+                        </svg>
+                    </button>
+                </main>
+            </nav>
+        </aside>
+        <aside class="bg-white w-full md:w-70 lg:w-100 h-screen flex flex-col min-h-0">
+            <header class="py-5 px-4 flex justify-between items-center border-b-1 border-gray-200">
+                <section class="flex items-center gap-2">
+                    <button class="w-10 h-10 rounded-full bg-blue-500 cursor-pointer" id="buttonAvatar">
+                        <img src="" alt="" id="avatarUserX">
+                    </button>
+                    <div class="">
+                        <div class="hidden w-3 h-3 bg-green-500 border-2 border-white rounded-full fixed top-12 left-27" id="buttonStatusUserX"></div>
+                        <h1 class="font-semibold" id="nameUserXTitle"></h1>
+                        <p class="text-gray-700 text-sm" id="StatsUserXTitle"></p>
+                    </div>
+                </section>
+                <button class="button-writte-message cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="-2 -2 24 24">
+                        <path d="M-2 -2h24v24H-2z" fill="none" />
+                        <path fill="currentColor" d="m5.72 14.456l1.761-.508l10.603-10.73a.456.456 0 0 0-.003-.64l-.635-.642a.443.443 0 0 0-.632-.003L6.239 12.635zM18.703.664l.635.643c.876.887.884 2.318.016 3.196L8.428 15.561l-3.764 1.084a.9.9 0 0 1-1.11-.623a.9.9 0 0 1-.002-.506l1.095-3.84L15.544.647a2.215 2.215 0 0 1 3.159.016zM7.184 1.817c.496 0 .898.407.898.909a.903.903 0 0 1-.898.909H3.592c-.992 0-1.796.814-1.796 1.817v10.906c0 1.004.804 1.818 1.796 1.818h10.776c.992 0 1.797-.814 1.797-1.818v-3.635c0-.502.402-.909.898-.909s.898.407.898.91v3.634c0 2.008-1.609 3.636-3.593 3.636H3.592C1.608 19.994 0 18.366 0 16.358V5.452c0-2.007 1.608-3.635 3.592-3.635z" />
+                    </svg>
+                </button>
+            </header>
+            <main class="flex flex-col gap-2 flex-1 min-h-0 overflow-y-auto space-y-1">
+                <section">
+                    <div class="champ-search bg-blue-50 rounded-full px-2 py-1 my-2 mx-4 flex items-center gap-2">
+                        <svg class="text-gray-700" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+                        </svg>
+                        <input type="search" placeholder="Recherche conversation" class="outline-none w-full" id="buttonSearchDiscussion">
+                    </div>
+                </section>
+                <button class="userMessage hidden w-full px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition cursor-pointer" id="userDiscussionInterface">
+                    <img src="" alt="" class="w-10 h-10 rounded-full bg-blue-500 flex-shrink-0" id="avatarUserDiscussion">
+                    <div class="flex flex-col justify-between flex-1 min-w-0">
+                        <div class="flex justify-between items-center">
+                            <p class="font-semibold truncate" id="nameUserYDiscussion"></p>
+                            <p class="text-sm flex-shrink-0 hidden" id="heureMessageUserDiscussion">14:20</p>
+                        </div>
+                        <div class="flex justify-between items-center gap-2">
+                            <p class="text-sm text-gray-600 flex-1 min-w-0 truncate hidden" id="containMessageUser">
+                                I zenga plan wana ndenge très très très très très très très...
+                            </p>
+                            <p class="hidden w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs flex-shrink-0" id="numberMessageUserDiscussion">
+                                3
+                            </p>
+                        </div>
+                    </div>
+                </button>
+                <div id="usersList" class="flex-1 overflow-y-auto min-h-0">
+                </div>
+            </main>
+        </aside>
+        <main class="flex-1 bg-gray-100 flex flex-col hidden" id="interfaceConversation">
+            <header class="flex justify-between items-center border-b-1 border-gray-300 px-4 py-4">
+                <div class="flex items-center gap-2">
+                    <img src="" alt="" class="hidden w-10 h-10 rounded-full bg-blue-500" id="avatarUserDiscussionInterface">
+                    <div>
+                        <p class="font-semibold" id="nameUserDiscussionInterface"></p>
+                        <div class="flex items-center gap-2 hidden" id="statusUserY">
+                            <div class="w-2 h-2 bg-green-500 rounded-full" id="colorGreenStatus"></div>
+                            <p class="text-sm" id="statusUserDiscussionInterface"></p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="button-navigation-interface flex gap-3">
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15.75v-7.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2m17.168-8.759l-4 3.563a.5.5 0 0 0-.168.373v1.778a.5.5 0 0 0 .168.373l4 3.563a.5.5 0 0 0 .832-.374V7.365a.5.5 0 0 0-.832-.374" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path d="M0 0h16v16H0z" fill="none" />
+                            <path fill="currentColor" d="M7 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 3 7.86 3 8 3s.209 0 .267.008a.85.85 0 0 1 .725.725C9 3.79 9 3.86 9 4s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 5 8.14 5 8 5s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 4.21 7 4.14 7 4m0 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 7 7.86 7 8 7s.209 0 .267.008a.85.85 0 0 1 .725.725C9 7.79 9 7.86 9 8s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 9 8.14 9 8 9s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 8.21 7 8.14 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.209 7 12.139 7 12" />
+                        </svg>
+                    </button>
+                </nav>
+            </header>
+            <main class="px-4 flex flex-col gap-3 flex-1 overflow-y-auto">
+                <div class="flex justify-center py-3">
+                    <p 
+                        class="text-gray-700 text-sm px-2 py-1 bg-gray-300 font-semibold inline rounded-full" 
+                        id="dayDiscussion">
+                        Aujourd'hui
+                    </p>
+                </div>
+                <!-- LES MESSAGES SERONT AJOUTÉS ICI -->
+                    <div id="messagesContainer" class="flex flex-col gap-3">
+                </div>
+            </main>
+            <div class="p-3 border-t-1 border-gray-400 bg-white">
+                <div class="flex items-center gap-2">
+                    <button class="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z" class="text-black" />
+                        </svg>
+                    </button>
+                    <button class="flex items-center justify-center cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
+                                <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
+                                <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
+                            </g>
+                        </svg>
+                    </button>
+                    <input  type="text" placeholder="Écrire un message..."class="flex-1 border rounded-lg px-4 py-4 outline-none focus:ring-2 focus:ring-blue-500 border-blue-300" id="champSaisieMessage">
+                    <button class="flex items-center justify-center bg-blue-700 w-10 h-10 rounded-full cursor-pointer" id="buttonEnvoyerMessage">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M4 18.5v-13L19.423 12zM5 17l11.85-5L5 7v3.885L9.846 12L5 13.116zm0 0V7z" class="text-white" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="listUsers.js"></script>
+</body>
+</html>

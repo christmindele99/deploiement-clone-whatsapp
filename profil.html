@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadea Chat/Profil</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div id="pageLoader" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden">
+        <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    </div>
+    <div class="flex min-h-screen">
+        <aside class="md:flex w-16 lg:w-18 bg-gray-100">
+            <nav class="flex flex-col justify-between min-h-screen w-full items-center p-1 md:p-2">
+                <header class="flex flex-col justify-center items-center gap-5 py-4">
+                    <div class="text-blue-500 font-bold text-xl">
+                        forum
+                    </div>
+                    <button class="text-gray-700 cursor-pointer">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+                            <path d="M0 0h256v256H0z" fill="none" />
+                            <path fill="currentColor" d="M216 48H40a16 16 0 0 0-16 16v160a15.84 15.84 0 0 0 9.25 14.5A16.05 16.05 0 0 0 40 240a15.9 15.9 0 0 0 10.25-3.78l.09-.07L83 208h133a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16m0 144H80a8 8 0 0 0-5.23 1.95L40 224V64h176Z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer text-gray-700" id="iconButtonChat">
+                        <svg class="w-6 h-6 font-bold" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6 14h8v-2H6zm0-3h12V9H6zm0-3h12V6H6zM2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm3.15-6H20V4H4v13.125zM4 16V4z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer" id="btnListUsers">
+                        <svg class="w-6 h-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M9.175 10.825Q8 9.65 8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12t-2.825-1.175M4 20v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20zm2-2h12v-.8q0-.275-.137-.5t-.363-.35q-1.35-.675-2.725-1.012T12 15t-2.775.338T6.5 16.35q-.225.125-.363.35T6 17.2zm7.413-8.587Q14 8.825 14 8t-.587-1.412T12 6t-1.412.588T10 8t.588 1.413T12 10t1.413-.587M12 18" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="m12 18l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14zM5 8v11h14V8zm0 13q-.825 0-1.412-.587T3 19V6.525q0-.35.113-.675t.337-.6L4.7 3.725q.275-.35.687-.538T6.25 3h11.5q.45 0 .863.188t.687.537l1.25 1.525q.225.275.338.6t.112.675V19q0 .825-.587 1.413T19 21zm.4-15h13.2l-.85-1H6.25zm6.6 7.5" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98m-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2" />
+                        </svg>
+                    </button>
+                </header>
+                <main class="py-3">
+                    <button class="cursor-pointer bg-blue-500 text-white rounded-full p-1 md:p-2">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
+                        </svg>
+                    </button>
+                </main>
+            </nav>
+        </aside>
+        <aside class="w-full md:flex-1">
+            <section class="flex justify-between items-center border-b px-3 py-2 md:px-5">
+                <div class="text-blue-500 text-xl md:text-2xl font-bold">
+                    Kadea Chat
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15.75v-7.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2m17.168-8.759l-4 3.563a.5.5 0 0 0-.168.373v1.778a.5.5 0 0 0 .168.373l4 3.563a.5.5 0 0 0 .832-.374V7.365a.5.5 0 0 0-.832-.374" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z" />
+                        </svg>
+                    </button>
+                    <button class="cursor-pointer">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                            <path d="M0 0h16v16H0z" fill="none" />
+                            <path fill="currentColor" d="M7 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 3 7.86 3 8 3s.209 0 .267.008a.85.85 0 0 1 .725.725C9 3.79 9 3.86 9 4s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 5 8.14 5 8 5s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 4.21 7 4.14 7 4m0 4c0-.14 0-.209.008-.267a.85.85 0 0 1 .725-.725C7.79 7 7.86 7 8 7s.209 0 .267.008a.85.85 0 0 1 .725.725C9 7.79 9 7.86 9 8s0 .209-.008.267a.85.85 0 0 1-.725.725C8.21 9 8.14 9 8 9s-.209 0-.267-.008a.85.85 0 0 1-.725-.725C7 8.21 7 8.14 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.209 7 12.139 7 12" />
+                        </svg>
+                    </button>
+                </div>
+            </section>
+            <section class="flex justify-center mt-5">
+                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-blue-500 border-2 border-white overflow-hidden">
+                    <img src="" id="profilUser" alt="Photo profil d'utilisateur">
+                </div>
+                <div class="w-4 h-4 bg-green-500 rounded-full absolute top-34 left-168 flex items-center justify-center hidden" id="statutUser">
+                </div>
+            </section>
+            <section class="flex flex-col justify-center items-center mb-2 px-3 text-center">
+                <h1 class="nameUser text-black text-xl font-bold" id="nameUserTitle"></h1>
+                <p class="text-gray-500 font-semibold break-all" id="emailUserTitle"></p>
+                <p class="text-gray-700 font-semibold bg-blue-50 px-4 py-1 rounded-full text-sm md:text-base">Membre depuis <span id="yearMember"></span></p>
+            </section>
+            <section class="flex flex-col lg:flex-row justify-center items-center gap-3 mb-3 px-3">
+                <section class="w-full max-w-md h-auto min-h-55 rounded-lg border border-gray-300 px-3 py-3 flex flex-col gap-2">
+                    <div class="flex justify-between items-center">
+                        <div class="text-normal font-semibold">
+                            Details du compte
+                        </div>
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M22 3H2c-1.09.04-1.96.91-2 2v14c.04 1.09.91 1.96 2 2h20c1.09-.04 1.96-.91 2-2V5a2.074 2.074 0 0 0-2-2m0 16H2V5h20zm-8-2v-1.25c0-1.66-3.34-2.5-5-2.5s-5 .84-5 2.5V17zM9 7a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 9 12a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 9 7m5 0v1h6V7zm0 2v1h6V9zm0 2v1h4v-1z" />
+                        </svg>
+                    </div>
+                    <div class="users-accounts">
+                        <p>Nom complet</p>
+                        <p class="font-semibold" id="nameUser"></p>
+                        <input type="text" id="nameUserInput" readonly class="hidden rounded-sm bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200 w-full">
+                    </div>
+                    <div class="number-user">
+                        <p>Téléphone</p>
+                        <p class="font-semibold" id="numberUser"></p>
+                        <input  type="text" id="numberUserInput" readonly class="hidden rounded-sm bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200 w-full">
+                    </div>
+                    <div class="users-accounts">
+                        <p>Langue</p>
+                        <p class="font-semibold" id="languageUser"></p>
+                        <input type="text" id="languageUserInput" readonly class="hidden rounded-sm bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200 w-full">
+                    </div>
+                </section>
+                <section class="w-full max-w-md h-auto min-h-55 rounded-lg border border-gray-300 px-3 py-3 flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <div class="text-normal font-semibold">
+                            Confidentialité et sécurité
+                        </div>
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path fill="currentColor" d="M12 17a2 2 0 0 0 2-2a2 2 0 0 0-2-2a2 2 0 0 0-2 2a2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3" />
+                        </svg>
+                    </div>
+                    <div class="flex justify-between items-center gap-3">
+                        <div class="text-base md:text-lg flex items-center gap-2">
+                            <svg class="w-6 h-6 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                <path d="M0 0h32v32H0z" fill="none" />
+                                <path fill="currentColor" d="m11 23.18l-2-2.001l-1.411 1.41L11 26l6-6l-1.41-1.41zM28 30h-4v-2h4V16h-4V8a4.005 4.005 0 0 0-4-4V2a6.007 6.007 0 0 1 6 6v6h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2" />
+                                <path fill="currentColor" d="M20 14h-2V8A6 6 0 0 0 6 8v6H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V16a2 2 0 0 0-2-2M8 8a4 4 0 0 1 8 0v6H8Zm12 20H4V16h16Z" />
+                            </svg>
+                            Double authentification
+                        </div>
+                        <button class="text-blue-500 cursor-pointer shrink-0">
+                            Activer
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center gap-3">
+                        <div class="text-base md:text-lg flex items-center gap-2">
+                            <svg class="w-6 h-6 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path fill="currentColor" fill-rule="evenodd" d="M12 17.8c4.034 0 7.686-2.25 9.648-5.8C19.686 8.45 16.034 6.2 12 6.2S4.314 8.45 2.352 12c1.962 3.55 5.614 5.8 9.648 5.8M12 5c4.808 0 8.972 2.848 11 7c-2.028 4.152-6.192 7-11 7s-8.972-2.848-11-7c2.028-4.152 6.192-7 11-7m0 9.8a2.8 2.8 0 1 0 0-5.6a2.8 2.8 0 0 0 0 5.6m0 1.2a4 4 0 1 1 0-8a4 4 0 0 1 0 8" />
+                            </svg>
+                            Active Sessions
+                        </div>
+                        <button class="cursor-pointer shrink-0">
+                            <svg class="w-5 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24">
+                                <path d="M0 0h12v24H0z" fill="none" />
+                                <path fill="currentColor" fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414" />
+                            </svg>
+                        </button>
+                    </div>
+                        <div class="flex justify-between items-center gap-3">
+                        <div class="text-base md:text-lg flex items-center gap-2">
+                            <svg class="w-6 h-6 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path fill="currentColor" d="M10.146 3.248a2 2 0 0 1 3.708 0A7 7 0 0 1 19 10v4.697l1.832 2.748A1 1 0 0 1 20 19h-4.535a3.501 3.501 0 0 1-6.93 0H4a1 1 0 0 1-.832-1.555L5 14.697V10c0-3.224 2.18-5.94 5.146-6.752M10.586 19a1.5 1.5 0 0 0 2.829 0zM12 5a5 5 0 0 0-5 5v5a1 1 0 0 1-.168.555L5.869 17H18.13l-.963-1.445A1 1 0 0 1 17 15v-5a5 5 0 0 0-5-5" />
+                            </svg>
+                            Notifications
+                        </div>
+                        <button class="cursor-pointer shrink-0">
+                            <svg class="w-5 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24">
+                                <path d="M0 0h12v24H0z" fill="none" />
+                                <path fill="currentColor" fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414" />
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+            </section>
+            <section class="flex flex-col font-bold items-center justify-center gap-2 mb-3 px-3">
+                <button class="cursor-pointer bg-blue-500 w-full max-w-60 flex justify-center items-center h-10 text-white rounded-sm gap-4"id="editProfilButton">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path fill="currentColor" d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-2 2v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                    </svg>
+                    Modifier Profil
+                </button>
+                <button class="cursor-pointer bg-gray-300 w-full max-w-60 flex justify-center items-center h-10 text-gray-900 font-bold rounded-sm gap-4"id="editPasswordButton">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path fill="currentColor" d="M5.588 13.413Q5 12.825 5 12t.588-1.412T7 10t1.413.588T9 12t-.587 1.413T7 14t-1.412-.587M7 18q-2.5 0-4.25-1.75T1 12t1.75-4.25T7 6q1.675 0 3.038.825T12.2 9h8.375q.2 0 .388.075t.337.225l2 2q.15.15.212.325t.063.375t-.063.375t-.212.325l-3.175 3.175q-.125.125-.3.2t-.35.1t-.35-.025t-.325-.175L17.5 15l-1.425 1.075q-.125.1-.275.15t-.3.05t-.313-.05t-.287-.15L13.375 15H12.2q-.8 1.35-2.163 2.175T7 18m0-2q1.4 0 2.463-.85T10.875 13H14l1.45 1.025v.013v-.013L17.5 12.5l1.775 1.375L21.15 12h-.012h.012l-1-1v-.012V11h-9.275q-.35-1.3-1.412-2.15T7 8Q5.35 8 4.175 9.175T3 12t1.175 2.825T7 16" />
+                    </svg>
+                    Modifier mot de passe
+                </button>
+                <button class="flex items-center justify-center cursor-pointer text-red-500" id="logoutButton">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path fill="currentColor" d="m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5M4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z" />
+                    </svg>
+                    Deconnexion
+                </button>
+            </section>
+            <footer class="pb-5 px-5 text-center">
+                <div class="border-t-2 border-gray-500 pt-2 text-gray-700 text-sm md:text-base">
+                    Kadea Chat v1.0.0 Chiffrement activé
+                </div>
+            </footer>
+        </aside>
+    </div>
+    <div 
+        id="passwordModal"
+        class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-80">
+            <h2 class="text-lg font-semibold mb-4">
+                Modifier le mot de passe
+            </h2>
+            <P class="text-gray-700 text-sm">Ancien mot de passe</P>
+            <input
+                id="oldPasswordInput"
+                type="password"
+                placeholder="Ancien mot de passe"
+                class="w-full border border-blue-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <P class="text-sm text-red-500 mb-2" id="erroPasswordUpdate"></P>
+            <P class="text-gray-700 text-sm">Ancien mot de passe</P>
+            <input
+                id="newPasswordInput"
+                type="password"
+                placeholder="Nouveau mot de passe"
+                class="w-full border border-blue-200 rounded-md p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="flex justify-end gap-3">
+                <button
+                    id="cancelPasswordButton"
+                    class="px-4 py-2 rounded-md bg-gray-200 cursor-pointer">
+                    Annuler
+                </button>
+                <button
+                    id="savePasswordButton"
+                    class="px-4 py-2 rounded-md bg-blue-500 text-white cursor-pointer">
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="logoutModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-80 text-center">
+            <h2 class="text-lg font-semibold mb-4">
+                Voulez-vous vous déconnecter ?
+            </h2>
+            <div class="flex justify-center gap-3">
+                <button id="confirmLogoutButton" class="bg-red-500 text-white px-4 py-2 rounded-md cursor-pointer">
+                    Oui
+                </button>
+                <button id="cancelLogoutButton" class="bg-gray-200 px-4 py-2 rounded-md cursor-pointer">
+                    Non
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="profil.js"></script>
+</body>

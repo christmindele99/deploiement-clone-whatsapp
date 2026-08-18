@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadea Chat/Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="flex h-screen">
+        <div class="flex h-screen overflow-hidden">
+
+    <!-- SIDEBAR ICONES -->
+    <aside class="bg-gray-100 w-14 sm:w-16 md:w-20 flex-shrink-0">
+
+        <nav class="flex flex-col justify-between h-screen items-center py-4 sm:py-5 md:p-4">
+
+            <header class="flex flex-col items-center gap-4 sm:gap-5">
+
+
+                <button class="text-blue-500 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                    class="w-5 h-5 sm:w-6 sm:h-6"
+                    viewBox="0 0 256 256">
+
+                        <path d="M0 0h256v256H0z" fill="none" />
+
+                        <path fill="currentColor" 
+                        d="M216 48H40a16 16 0 0 0-16 16v160a15.84 15.84 0 0 0 9.25 14.5A16.05 16.05 0 0 0 40 240a15.9 15.9 0 0 0 10.25-3.78l.09-.07L83 208h133a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16m0 144H80a8 8 0 0 0-5.23 1.95L40 224V64h176Z"/>
+
+                    </svg>
+                </button>
+
+
+
+                <button class="cursor-pointer bg-blue-500 flex items-center justify-center p-1 rounded-lg">
+
+                    <svg class="text-white font-bold w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none" />
+
+                        <path fill="currentColor" 
+                        d="M6 14h8v-2H6zm0-3h12V9H6zm0-3h12V6H6zM2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6z"/>
+
+                    </svg>
+
+                </button>
+
+
+
+                <button class="cursor-pointer">
+
+                    <svg class="text-gray-700 w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none" />
+
+                        <path fill="currentColor" 
+                        d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z"/>
+
+                    </svg>
+
+                </button>
+
+
+
+                <button class="cursor-pointer">
+
+                    <svg class="text-gray-700 w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none"/>
+
+                        <path fill="currentColor"
+                        d="M9.175 10.825Q8 9.65 8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12t-2.825-1.175M4 20v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z"/>
+
+                    </svg>
+
+                </button>
+                                <button class="cursor-pointer">
+
+                    <svg class="text-gray-700 w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none"/>
+
+                        <path fill="currentColor"
+                        d="m12 18l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14zM5 8v11h14V8zm0 13q-.825 0-1.412-.587T3 19V6.525q0-.35.113-.675t.337-.6L4.7 3.725q.275-.35.687-.538T6.25 3h11.5q.45 0 .863.188t.687.537l1.25 1.525q.225.275.338.6t.112.675V19q0 .825-.587 1.413T19 21zm.4-15h13.2l-.85-1H6.25zm6.6 7.5"/>
+
+                    </svg>
+
+                </button>
+
+
+
+                <button class="cursor-pointer" id="connectBtn">
+
+                    <svg class="text-gray-700 w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none"/>
+
+                        <path fill="currentColor"
+                        d="M19.9 12.66a1 1 0 0 1 0-1.32l1.28-1.44a1 1 0 0 0 .12-1.17l-2-3.46a1 1 0 0 0-1.07-.48l-1.88.38a1 1 0 0 1-1.15-.66l-.61-1.83a1 1 0 0 0-.95-.68h-4a1 1 0 0 0-1 .68l-.56 1.83a1 1 0 0 1-1.15.66L5 4.79a1 1 0 0 0-1 .48L2 8.73a1 1 0 0 0 .1 1.17l1.27 1.44a1 1 0 0 1 0 1.32L2.1 14.1a1 1 0 0 0-.1 1.17l2 3.46a1 1 0 0 0 1.07.48l1.88-.38a1 1 0 0 1 1.15.66l.61 1.83a1 1 0 0 0 1 .68h4a1 1 0 0 0 .95-.68l.61-1.83a1 1 0 0 1 1.15-.66l1.88.38a1 1 0 0 0 1.07-.48l2-3.46a1 1 0 0 0-.12-1.17ZM18.41 14l.8.9l-1.28 2.22l-1.18-.24a3 3 0 0 0-3.45 2L12.92 20h-2.56L10 18.86a3 3 0 0 0-3.45-2l-1.18.24l-1.3-2.21l.8-.9a3 3 0 0 0 0-4l-.8-.9l1.28-2.2l1.18.24a3 3 0 0 0 3.45-2L10.36 4h2.56l.38 1.14a3 3 0 0 0 3.45 2l1.18-.24l1.28 2.22l-.8.9a3 3 0 0 0 0 3.98m-6.77-6a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2"/>
+
+                    </svg>
+
+                </button>
+
+
+            </header>
+                        <main>
+
+                <button class="cursor-pointer bg-blue-500 text-white rounded-full p-1">
+
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+
+                        <path d="M0 0h24v24H0z" fill="none"/>
+
+                        <path fill="currentColor"
+                        d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/>
+
+                    </svg>
+
+                </button>
+
+            </main>
+
+
+        </nav>
+
+    </aside>
+    </div>
+    <script src="chat.js"></script>
+</body>
+</html>
