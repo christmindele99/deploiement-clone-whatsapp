@@ -9,8 +9,8 @@
 <body>
     <div class="flex h-screen overflow-hidden">
         <aside class="md:flex bg-gray-100 w-15">
-            <nav class="flex flex-col justify-between h-screen items-center md:p-4 mt-5">
-                <header class="iconMenu gap-5 md:gap-5 flex flex-col justify-center" id="iconMenu">
+            <nav class="flex flex-col justify-between h-screen items-center md:p-4">
+                <header class="iconMenu gap-5 md:gap-5 flex flex-col justify-center mt-5" id="iconMenu">
                     <button class="text-gray-700 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 256 256">
                             <path d="M0 0h256v256H0z" fill="none" />
@@ -49,7 +49,7 @@
                     </button>
                 </header>
                 <main>
-                    <button class=" cursor-pointer bg-blue-500 text-white rounded-full">
+                    <button class=" cursor-pointer bg-blue-500 text-white rounded-full mb-5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
                             <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
@@ -153,33 +153,50 @@
                     <div id="messagesContainer" class="flex flex-col gap-3">
                 </div>
             </main>
-            <div class="p-3 border-t-1 border-gray-400 bg-white">
-                <div class="flex items-center gap-2">
-                    <button class="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z" class="text-black" />
-                        </svg>
-                    </button>
-                    <button class="flex items-center justify-center cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
-                                <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
-                                <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
-                            </g>
-                        </svg>
-                    </button>
-                    <input  type="text" placeholder="Écrire un message..."class="flex-1 border rounded-lg px-4 py-4 outline-none focus:ring-2 focus:ring-blue-500 border-blue-300" id="champSaisieMessage">
-                    <button class="flex items-center justify-center bg-blue-700 w-10 h-10 rounded-full cursor-pointer" id="buttonEnvoyerMessage">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path fill="currentColor" d="M4 18.5v-13L19.423 12zM5 17l11.85-5L5 7v3.885L9.846 12L5 13.116zm0 0V7z" class="text-white" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+            <div class="p-2 md:p-3 border-t border-gray-400 bg-white">
+    <div class="flex items-center gap-1 md:gap-2 w-full">
+
+        <!-- Bouton + -->
+        <button class="w-6 h-6 flex-shrink-0 rounded-full border-2 border-black flex items-center justify-center cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z" />
+            </svg>
+        </button>
+
+        <!-- Emoji -->
+        <button class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0 flex items-center justify-center cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
+                    <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
+                    <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
+                </g>
+            </svg>
+        </button>
+
+        <!-- Champ -->
+        <input
+            type="text"
+            placeholder="Écrire un message..."
+            class="flex-1 min-w-0 border rounded-lg px-3 py-2 md:px-4 md:py-3 outline-none focus:ring-2 focus:ring-blue-500 border-blue-300"
+            id="champSaisieMessage"
+        >
+
+        <!-- Envoyer -->
+        <button
+            class="flex-shrink-0 flex items-center justify-center bg-blue-700 w-9 h-9 md:w-10 md:h-10 rounded-full cursor-pointer"
+            id="buttonEnvoyerMessage"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path fill="currentColor" d="M4 18.5v-13L19.423 12zM5 17l11.85-5L5 7v3.885L9.846 12L5 13.116z" class="text-white" />
+            </svg>
+        </button>
+
+    </div>
+</div>
         </main>
     </div>
     <script src="listUsers.js"></script>
