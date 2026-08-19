@@ -31,6 +31,7 @@ const cancelDelete = document.getElementById("cancelDelete");
 const confirmDelete = document.getElementById("confirmDelete");
 const buttonDeleteMessage = document.getElementById("buttonDeleteMessage");
 const conversationsPanel = document.getElementById("conversationsPanel");
+const btnChatConversation = document.getElementById("btnChatConversation");
 let deleteMode = false;
 let deleteMessageMode = false;
 let currentUser = null;
@@ -543,48 +544,55 @@ function displayMessages(messages) {
 
     console.log("MESSAGES À AFFICHER :", messages);
 
-    // Vider l'affichage précédent
     messagesContainer.innerHTML = "";
 
     messages.forEach(message => {
 
-          console.log("MESSAGE :", message);
+        console.log("MESSAGE :", message);
         console.log("ID DU MESSAGE :", message.id);
 
-        // Conteneur du message
-        const messageWrapper = document.createElement("div");
+        const messageWrapper =
+            document.createElement("div");
 
-        const checkbox = document.createElement("input");
+        const checkbox =
+            document.createElement("input");
 
         checkbox.type = "checkbox";
 
         checkbox.className =
-            "delete-message-checkbox hidden";
+            "delete-message-checkbox";
+
+        // Afficher ou cacher selon le mode actuel
+        if (!deleteMessageMode) {
+            checkbox.classList.add("hidden");
+        }
 
         checkbox.dataset.messageId =
             message.id;
 
         messageWrapper.appendChild(checkbox);
 
-        // Vérifier si le message vient de l'utilisateur connecté
+
+        // Vérifier si le message appartient à l'utilisateur connecté
         const isMyMessage =
             message.senderId === currentUser.id;
 
 
+        // Position du message
         if (isMyMessage) {
 
-            // MESSAGE ENVOYÉ
             messageWrapper.className =
-                "flex self-end max-w-[60%] gap-2";
+                "flex self-end max-w-[85%] md:max-w-[60%] min-w-0 gap-2";
 
         } else {
 
-            // MESSAGE REÇU
             messageWrapper.className =
-                "flex self-start max-w-[60%] gap-2";
+                "flex self-start max-w-[85%] md:max-w-[60%] min-w-0 gap-2";
+
         }
 
 
+        // Contenu du message
         const messageContent =
             document.createElement("div");
 
@@ -592,7 +600,7 @@ function displayMessages(messages) {
             "flex flex-col gap-1 min-w-0";
 
 
-        // Le texte du message
+        // Texte du message
         const messageText =
             document.createElement("p");
 
@@ -600,36 +608,62 @@ function displayMessages(messages) {
             message.content;
 
 
-       if (isMyMessage) {
+        if (isMyMessage) {
+
             messageText.className =
-                "px-3 py-2 bg-blue-500 text-white rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal";
+                "px-3 py-2 bg-blue-500 text-white rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal min-w-0 max-w-full break-all";
+
         } else {
+
             messageText.className =
-                "px-3 py-2 bg-gray-200 rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal";
+                "px-3 py-2 bg-gray-200 rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal min-w-0 max-w-full break-all";
+
         }
 
 
-        // L'heure
+        // Heure
         const messageTime =
             document.createElement("p");
+
         const date =
             new Date(message.createdAt);
 
+
         messageTime.textContent =
-            date.toLocaleTimeString("fr-FR", {
-                hour: "2-digit",
-                minute: "2-digit"
-            });
+            date.toLocaleTimeString(
+                "fr-FR",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+
         messageTime.className =
             "text-xs text-gray-500 self-end";
 
 
-        // Construire le message
-        messageContent.appendChild(messageText);
-        messageContent.appendChild(messageTime);
-        messageWrapper.appendChild(messageContent);
+        // Ajouter texte + heure
+        messageContent.appendChild(
+            messageText
+        );
 
-        messagesContainer.appendChild(messageWrapper);
+        messageContent.appendChild(
+            messageTime
+        );
+
+
+        // Ajouter contenu au wrapper
+        messageWrapper.appendChild(
+            messageContent
+        );
+
+
+        // Ajouter le message à l'interface
+        messagesContainer.appendChild(
+            messageWrapper
+        );
+
     });
 }
 
@@ -846,9 +880,6 @@ cancelDelete.addEventListener("click", () => {
 
 
 
-
-
-
 buttonSuppression.addEventListener("click", () => {
 
     console.log("BOUTON SUPPRESSION CLIQUÉ");
@@ -908,7 +939,10 @@ buttonDeleteMessage.addEventListener(
     "click",
     async () => {
 
-        // PREMIER CLIC
+        // =====================================
+        // PREMIER CLIC : ACTIVER LE MODE
+        // =====================================
+
         if (!deleteMessageMode) {
 
             deleteMessageMode = true;
@@ -932,7 +966,10 @@ buttonDeleteMessage.addEventListener(
         }
 
 
-        // DEUXIÈME CLIC
+        // =====================================
+        // DEUXIÈME CLIC : RÉCUPÉRER LES MESSAGES
+        // =====================================
+
         const messageIds =
             getSelectedMessages();
 
@@ -942,35 +979,63 @@ buttonDeleteMessage.addEventListener(
         );
 
 
-        // Aucun message sélectionné
+        // =====================================
+        // AUCUN MESSAGE SÉLECTIONNÉ
+        // → SIMPLEMENT QUITTER LE MODE
+        // =====================================
+
         if (messageIds.length === 0) {
 
+            deleteMessageMode = false;
+
+            const checkboxes =
+                document.querySelectorAll(
+                    ".delete-message-checkbox"
+                );
+
+            checkboxes.forEach(checkbox => {
+
+                checkbox.checked = false;
+
+                checkbox.classList.add("hidden");
+
+            });
+
             console.log(
-                "Aucun message sélectionné"
+                "MODE SUPPRESSION DÉSACTIVÉ"
             );
 
             return;
         }
 
 
-        // Supprimer les messages
+        // =====================================
+        // DES MESSAGES SONT SÉLECTIONNÉS
+        // → SUPPRIMER
+        // =====================================
+
         for (const messageId of messageIds) {
 
             await deleteMessage(messageId);
 
         }
 
-
         console.log(
             "MESSAGES SUPPRIMÉS"
         );
 
 
-        // Quitter le mode suppression
+        // =====================================
+        // QUITTER LE MODE SUPPRESSION
+        // =====================================
+
         deleteMessageMode = false;
 
 
-        // Recharger les messages
+        // =====================================
+        // RECHARGER LES MESSAGES
+        // =====================================
+
         const messagesResponse =
             await getMessages(
                 currentConversationId
@@ -984,33 +1049,6 @@ buttonDeleteMessage.addEventListener(
 );
 
 
-
-function getSelectedMessages() {
-
-    const selectedCheckboxes =
-        document.querySelectorAll(
-            ".delete-message-checkbox:checked"
-        );
-
-    const messageIds = [];
-
-    selectedCheckboxes.forEach(checkbox => {
-
-        const messageId =
-            checkbox.dataset.messageId;
-
-        messageIds.push(messageId);
-    });
-
-    console.log(
-        "MESSAGES SÉLECTIONNÉS :",
-        messageIds
-    );
-
-    return messageIds;
-}
-
-
 function showConversationOnMobile() {
 
     if (window.innerWidth < 768) {
@@ -1020,3 +1058,65 @@ function showConversationOnMobile() {
         interfaceConversation.classList.remove("hidden");
     }
 }
+
+
+
+
+function showConversationsList() {
+
+    // Afficher la liste des conversations
+    conversationsPanel.classList.remove("hidden");
+
+    // Cacher l'interface de discussion
+    interfaceConversation.classList.add("hidden");
+}
+
+btnChatConversation.addEventListener("click", () => {
+
+    // Si une conversation est ouverte
+    if (!interfaceConversation.classList.contains("hidden")) {
+
+        showConversationsList();
+
+    }
+});
+
+
+
+
+
+function startMessagesAutoRefresh() {
+
+    if (messagesRefreshInterval) {
+        clearInterval(messagesRefreshInterval);
+    }
+
+    messagesRefreshInterval = setInterval(async () => {
+
+        if (!currentConversationId) {
+            return;
+        }
+
+        try {
+
+            const messagesResponse =
+                await getMessages(currentConversationId);
+
+            const messages =
+                messagesResponse.data.messages;
+
+            displayMessages(messages);
+
+        } catch (error) {
+
+            console.error(
+                "Erreur lors de l'actualisation des messages :",
+                error
+            );
+        }
+
+    }, 2000);
+}
+
+
+
