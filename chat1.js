@@ -30,6 +30,7 @@ const deleteWarning = document.getElementById("deleteWarning");
 const cancelDelete = document.getElementById("cancelDelete");
 const confirmDelete = document.getElementById("confirmDelete");
 const buttonDeleteMessage = document.getElementById("buttonDeleteMessage");
+const conversationsPanel = document.getElementById("conversationsPanel");
 let deleteMode = false;
 let deleteMessageMode = false;
 let currentUser = null;
@@ -236,6 +237,8 @@ async function displayConversations() {
                     conversation.id;
 
                 startMessagesAutoRefresh();
+
+                showConversationOnMobile();
 
 
                 console.log(
@@ -1008,3 +1011,12 @@ function getSelectedMessages() {
 }
 
 
+function showConversationOnMobile() {
+
+    if (window.innerWidth < 768) {
+
+        conversationsPanel.classList.add("hidden");
+
+        interfaceConversation.classList.remove("hidden");
+    }
+}
