@@ -28,6 +28,8 @@ let selectedUser = null;
 let currentConversationId = null;
 const btnListUsers = document.getElementById("btnListUsers")
 const btnChatConversation = document.getElementById("btnChatConversation")
+const usersInterface = document.getElementById("usersInterface");
+let isConversationOpen = false;
 let allUsers = [];
 
 
@@ -151,6 +153,26 @@ buttonSearchDiscussion.addEventListener(
 
 
 
+
+function showUserList() {
+    usersInterface.classList.remove("hidden");
+    interfaceConversation.classList.add("hidden");
+}
+
+
+function showUserDiscussion() {
+
+    // Cacher toute l'interface des utilisateurs
+    usersInterface.classList.add("hidden");
+
+    // Afficher l'interface de discussion
+    interfaceConversation.classList.remove("hidden");
+}
+
+
+
+
+
 function renderUsers(users) {
 
     // Vider la liste actuelle
@@ -182,69 +204,67 @@ function renderUsers(users) {
         // Quand on clique sur l'utilisateur
         userClone.addEventListener("click", async () => {
 
-            selectedUser = user;
+        isConversationOpen = true;
 
-            console.log(
-                "Utilisateur sélectionné :",
-                selectedUser
+        updateInterface();
+
+        selectedUser = user;
+
+    console.log(
+        "Utilisateur sélectionné :",
+        selectedUser
+    );
+
+
+    // Afficher l'utilisateur dans l'en-tête
+    nameUserDiscussionInterface.textContent =
+        user.fullName;
+
+    statusUserY.classList.remove("hidden");
+
+    avatarUserDiscussionInterface.classList.remove(
+        "hidden"
+    );
+
+    statusUserDiscussionInterface.textContent =
+        "En ligne";
+
+    avatarUserDiscussionInterface.src =
+        "default-avatar.jpg";
+
+    avatarUserDiscussionInterface.alt =
+        user.fullName;
+
+
+    try {
+
+        currentConversationId =
+            await getOrCreateConversation(user);
+
+        console.log(
+            "Conversation actuelle :",
+            currentConversationId
+        );
+
+
+        const messagesResponse =
+            await getMessages(
+                currentConversationId
             );
 
 
-            // Afficher l'utilisateur dans l'en-tête
-            nameUserDiscussionInterface.textContent =
-                user.fullName;
-
-            statusUserY.classList.remove("hidden");
-
-            avatarUserDiscussionInterface.classList.remove(
-                "hidden"
-            );
-
-            statusUserDiscussionInterface.textContent =
-                "En ligne";
-
-            avatarUserDiscussionInterface.src =
-                "default-avatar.jpg";
-
-            avatarUserDiscussionInterface.alt =
-                user.fullName;
+        displayMessages(
+            messagesResponse.data.messages
+        );
 
 
-            // Afficher l'interface de conversation
-            interfaceConversation.classList.remove(
-                "hidden"
-            );
+    } catch (error) {
 
-
-            try {
-
-                currentConversationId =
-                    await getOrCreateConversation(user);
-
-                console.log(
-                    "Conversation actuelle :",
-                    currentConversationId
-                );
-
-
-                const messagesResponse =
-                    await getMessages(
-                        currentConversationId
-                    );
-
-
-                displayMessages(
-                    messagesResponse.data.messages
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Erreur conversation :",
-                    error
-                );
-            }
+        console.error(
+            "Erreur conversation :",
+            error
+        );
+    }
         });
 
 
@@ -519,8 +539,33 @@ function displayMessages(messages) {
 }
 
 
+
+
+function updateInterface() {
+
+    if (isConversationOpen === true) {
+
+        usersInterface.classList.add("hidden");
+        interfaceConversation.classList.remove("hidden");
+
+    } else {
+
+        usersInterface.classList.remove("hidden");
+        interfaceConversation.classList.add("hidden");
+
+    }
+}
+
+
+
+
 buttonEnvoyerMessage.addEventListener("click", sendMessage);
 
-chatUsers.addEventListener("click", () => {
-  window.location.href = "chat.html";
+
+btnListUsers.addEventListener("click", () => {
+
+    isConversationOpen = false;
+
+    updateInterface();
+
 });
