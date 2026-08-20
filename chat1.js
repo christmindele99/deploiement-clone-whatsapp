@@ -71,9 +71,6 @@ async function getCurrentUser() {
 
 
 
-
-
-
 async function getConversations() {
 
     const token = localStorage.getItem("token");
@@ -88,52 +85,37 @@ async function getConversations() {
             }
         }
     );
-
     const data = await response.json();
-
     console.log("DONNÉES DES CONVERSATIONS :", data);
-
     return data;
 }
-
-
 
 
 async function displayConversations() {
 
     const response = await getConversations();
-
     const conversations = response.data.conversations;
-
     console.log("MES CONVERSATIONS :", conversations);
-
     for (const conversation of conversations) {
-
         // Récupérer les messages de cette conversation
         const messagesResponse =
             await getMessages(conversation.id);
-
         const messages =
             messagesResponse.data.messages;
-
         console.log(
             "Messages de la conversation",
             conversation.id,
             messages
         );
 
-
         // Vérifier s'il existe au moins un message
         if (messages.length === 0) {
-
             console.log(
                 "Conversation vide, on ne l'affiche pas :",
                 conversation.id
             );
-
             continue;
         }
-
 
         // Trouver l'autre participant
         const otherParticipant =
@@ -142,23 +124,18 @@ async function displayConversations() {
                     participant.userId !== currentUser.id
             );
 
-
         if (!otherParticipant) {
             continue;
         }
 
-
         const user =
             otherParticipant.user;
-
-
         // Créer l'élément dans la liste
         const userClone =
             userDiscussionInterface.cloneNode(true);
 
         userClone.classList.remove("hidden");
         userClone.dataset.conversationId = conversation.id;
-
 
         // Avatar
         const avatar =
@@ -304,11 +281,6 @@ async function displayConversations() {
 
 
 
-
-function displayCurrentDay() {
-    dayDiscussion.textContent = "Aujourd'hui";
-}
-
 window.addEventListener("DOMContentLoaded", async () => {
 
     try {
@@ -326,8 +298,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         StatsUserXTitle.textContent =
             "Mon Statut : Actif";
-
-        displayCurrentDay();
 
         //  Charger uniquement les conversations existantes
         await displayConversations();
@@ -541,13 +511,64 @@ function startMessagesAutoRefresh() {
 
 
 
+
+function getDayLabel(dateString) {
+
+    const messageDate = new Date(dateString);
+    const today = new Date();
+
+    // Remettre les heures à zéro
+    messageDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // Différence en jours
+    const difference =
+        (today - messageDate) / (1000 * 60 * 60 * 24);
+
+    if (difference === 0) {
+        return "Aujourd'hui";
+    }
+
+    if (difference === 1) {
+        return "Hier";
+    }
+
+    return messageDate.toLocaleDateString("fr-FR");
+}
+
+
 function displayMessages(messages) {
 
     console.log("MESSAGES À AFFICHER :", messages);
 
     messagesContainer.innerHTML = "";
 
+    let previousDay = null;
+
     messages.forEach(message => {
+
+        const currentDay = getDayLabel(message.createdAt);
+
+        if (currentDay !== previousDay) {
+
+            const dayWrapper = document.createElement("div");
+
+            dayWrapper.className =
+                "flex justify-center py-3";
+
+            const dayTitle = document.createElement("p");
+
+            dayTitle.textContent = currentDay;
+
+            dayTitle.className =
+                "text-gray-700 text-sm px-2 py-1 bg-gray-300 font-semibold rounded-full";
+
+            dayWrapper.appendChild(dayTitle);
+
+            messagesContainer.appendChild(dayWrapper);
+
+            previousDay = currentDay;
+        }
 
         console.log("MESSAGE :", message);
         console.log("ID DU MESSAGE :", message.id);
@@ -555,41 +576,40 @@ function displayMessages(messages) {
         const messageWrapper =
             document.createElement("div");
 
-        const checkbox = document.createElement("input");
+        const checkbox =
+            document.createElement("input");
 
         checkbox.type = "checkbox";
+
         checkbox.className =
             "delete-message-checkbox";
+
         checkbox.dataset.messageId =
             message.id;
-
-        // Afficher ou cacher selon le mode suppression
         if (!deleteMessageMode) {
             checkbox.classList.add("hidden");
         }
-
-        // Restaurer la sélection après un refresh
         if (selectedMessageIds.has(message.id)) {
             checkbox.checked = true;
         }
 
-        // Quand l'utilisateur coche / décoche
+
         checkbox.addEventListener("change", () => {
+
             if (checkbox.checked) {
                 selectedMessageIds.add(message.id);
             } else {
                 selectedMessageIds.delete(message.id);
             }
+
         });
+
         messageWrapper.appendChild(checkbox);
 
-
-        // Vérifier si le message appartient à l'utilisateur connecté
         const isMyMessage =
             message.senderId === currentUser.id;
 
 
-        // Position du message
         if (isMyMessage) {
 
             messageWrapper.className =
@@ -602,8 +622,6 @@ function displayMessages(messages) {
 
         }
 
-
-        // Contenu du message
         const messageContent =
             document.createElement("div");
 
@@ -611,7 +629,6 @@ function displayMessages(messages) {
             "flex flex-col gap-1 min-w-0";
 
 
-        // Texte du message
         const messageText =
             document.createElement("p");
 
@@ -631,14 +648,11 @@ function displayMessages(messages) {
 
         }
 
-
-        // Heure
         const messageTime =
             document.createElement("p");
 
         const date =
             new Date(message.createdAt);
-
 
         messageTime.textContent =
             date.toLocaleTimeString(
@@ -649,31 +663,16 @@ function displayMessages(messages) {
                 }
             );
 
-
         messageTime.className =
             "text-xs text-gray-500 self-end";
 
+        messageContent.appendChild(messageText);
 
-        // Ajouter texte + heure
-        messageContent.appendChild(
-            messageText
-        );
+        messageContent.appendChild(messageTime);
 
-        messageContent.appendChild(
-            messageTime
-        );
+        messageWrapper.appendChild(messageContent);
 
-
-        // Ajouter contenu au wrapper
-        messageWrapper.appendChild(
-            messageContent
-        );
-
-
-        // Ajouter le message à l'interface
-        messagesContainer.appendChild(
-            messageWrapper
-        );
+        messagesContainer.appendChild(messageWrapper);
 
     });
 }
