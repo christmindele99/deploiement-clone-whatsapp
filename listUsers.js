@@ -275,6 +275,7 @@ function renderUsers(users) {
 
 
 window.addEventListener("DOMContentLoaded", async () => {
+    setActiveNavigation(btnListUsers);
     try {
         const response = await getCurrentUser();
         const currentUser = response.data.user;
@@ -288,6 +289,24 @@ window.addEventListener("DOMContentLoaded", async () => {
         console.log(error);
     }
 });
+
+
+
+
+
+function setActiveNavigation(activeButton) {
+
+    btnChatConversation.classList.remove("text-blue-500");
+    btnChatConversation.classList.add("text-gray-700");
+
+    btnListUsers.classList.remove("text-blue-500");
+    btnListUsers.classList.add("text-gray-700");
+
+    activeButton.classList.remove("text-gray-700");
+    activeButton.classList.add("text-blue-500");
+}
+
+
 
 
 

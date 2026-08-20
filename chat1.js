@@ -32,6 +32,7 @@ const confirmDelete = document.getElementById("confirmDelete");
 const buttonDeleteMessage = document.getElementById("buttonDeleteMessage");
 const conversationsPanel = document.getElementById("conversationsPanel");
 const btnChatConversation = document.getElementById("btnChatConversation");
+const mobileNavigation = document.getElementById("mobileNavigation");
 let deleteMode = false;
 let deleteMessageMode = false;
 let selectedMessageIds = new Set();
@@ -50,6 +51,7 @@ connectBtn.addEventListener("click", () => {
 
 
 btnListUsers.addEventListener("click", () => {
+    setActiveNavigation(btnListUsers);
   window.location.href = "listUsers.html";
 });
 
@@ -283,6 +285,8 @@ async function displayConversations() {
 
 
 window.addEventListener("DOMContentLoaded", async () => {
+    
+    setActiveNavigation(btnChatConversation);
 
     try {
 
@@ -1173,23 +1177,65 @@ function showConversationOnMobile() {
         conversationsPanel.classList.add("hidden");
 
         interfaceConversation.classList.remove("hidden");
+
+        // Ajouter une étape dans l'historique du navigateur
+        history.pushState(
+            { conversation: true },
+            "",
+            "#conversation"
+        );
     }
 }
 
 
 
 
+window.addEventListener("popstate", () => {
+
+    // Si on est sur mobile
+    if (window.innerWidth < 768) {
+
+        // Afficher la liste des conversations
+        showConversationsList();
+    }
+});
+
+
+
 function showConversationsList() {
+
+    // Afficher la navigation
+    mobileNavigation.classList.remove("hidden");
 
     // Afficher la liste des conversations
     conversationsPanel.classList.remove("hidden");
 
-    // Cacher l'interface de discussion
+    // Cacher la discussion
     interfaceConversation.classList.add("hidden");
 }
 
-btnChatConversation.addEventListener("click", () => {
 
+
+
+function setActiveNavigation(activeButton) {
+
+    // Remettre toutes les icônes en gris
+    btnChatConversation.classList.remove("text-blue-500");
+    btnChatConversation.classList.add("text-gray-700");
+
+    btnListUsers.classList.remove("text-blue-500");
+    btnListUsers.classList.add("text-gray-700");
+
+
+    // Mettre l'icône sélectionnée en bleu
+    activeButton.classList.remove("text-gray-700");
+    activeButton.classList.add("text-blue-500");
+}
+
+
+
+
+btnChatConversation.addEventListener("click", () => {
     // Si une conversation est ouverte
     if (!interfaceConversation.classList.contains("hidden")) {
 
