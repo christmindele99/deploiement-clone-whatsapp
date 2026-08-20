@@ -770,9 +770,17 @@ function displayMessages(messages) {
 
             messageText.addEventListener("click", () => {
 
-                selectedMessageForEdit = message.id;
-
                 editButton.classList.toggle("hidden");
+
+                if (editButton.classList.contains("hidden")) {
+
+                    selectedMessageForEdit = null;
+
+                } else {
+
+                    selectedMessageForEdit = message.id;
+
+                }
 
             });
 
@@ -1076,10 +1084,6 @@ function getSelectedMessages() {
 
     return messageIds;
 }
-
-
-buttonDeleteMessage.addEventListener("click", async () => {
-});
 
 
 
