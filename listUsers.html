@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="flex h-screen overflow-hidden">
-        <aside class="md:flex bg-gray-100 w-15">
-            <nav class="flex flex-col justify-between h-screen items-center md:p-4">
-                <header class="iconMenu gap-5 md:gap-5 flex flex-col justify-center mt-5" id="iconMenu">
+        <aside class="bg-gray-100 w-14 shrink-0 fixed bottom-0 left-0 w-full h-14 z-40 md:static md:w-14 md:h-auto md:shrink-0">
+            <nav class="flex flex-row justify-around items-center h-14 px-2 md:flex-col md:justify-between md:h-screen md:px-3">
+                <header class="iconMenu gap-5 flex flex-row items-center justify-around w-full md:flex-col md:justify-center md:w-auto md:mt-5" id="iconMenu">
                     <button class="text-gray-700 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 256 256">
                             <path d="M0 0h256v256H0z" fill="none" />
@@ -48,14 +48,6 @@
                         </svg>
                     </button>
                 </header>
-                <main>
-                    <button class=" cursor-pointer bg-blue-500 text-white rounded-full mb-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0z" fill="none" />
-                            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
-                        </svg>
-                    </button>
-                </main>
             </nav>
         </aside>
         <aside id="usersInterface" class="bg-white w-full md:w-70 lg:w-100 h-screen flex flex-col min-h-0">
@@ -65,9 +57,9 @@
                         <img src="" alt="" id="avatarUserX">
                     </button>
                     <div class="">
-                        <div class="hidden w-3 h-3 bg-green-500 border-2 border-white rounded-full fixed top-12 left-28 md:left-29" id="buttonStatusUserX"></div>
+                        <div class="hidden w-3 h-3 bg-green-500 border-2 border-white rounded-full fixed top-12 left-16 md:left-29" id="buttonStatusUserX"></div>
                         <h1 class="font-semibold" id="nameUserXTitle"></h1>
-                        <p class="text-gray-700 text-sm pl-3 md:pl-2" id="StatsUserXTitle"></p>
+                        <p class="text-gray-700 text-sm pl-4 md:pl-3" id="StatsUserXTitle"></p>
                     </div>
                 </section>
                 <button class="button-writte-message cursor-pointer">
@@ -153,7 +145,7 @@
                     <div id="messagesContainer" class="flex flex-col gap-3">
                 </div>
             </main>
-        <div class="py-2 px-1 border-t border-gray-400 bg-white w-full">
+        <div class="p-2 md:p-3 border-t border-gray-400 bg-white w-full fixed bottom-14 left-0 z-30 md:static md:bottom-auto md:left-auto">
             <div class="flex items-center gap-1 w-full min-w-0">
                 <!-- Bouton + -->
                 <button
