@@ -1174,11 +1174,16 @@ function showConversationOnMobile() {
 
     if (window.innerWidth < 768) {
 
+        // Cacher la liste des conversations
         conversationsPanel.classList.add("hidden");
 
+        // Afficher la boîte de discussion
         interfaceConversation.classList.remove("hidden");
 
-        // Ajouter une étape dans l'historique du navigateur
+        // Cacher la barre de navigation
+        mobileNavigation.classList.add("hidden");
+
+        // Ajouter une étape dans l'historique
         history.pushState(
             { conversation: true },
             "",
