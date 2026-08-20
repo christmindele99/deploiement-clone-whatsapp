@@ -34,6 +34,7 @@ const conversationsPanel = document.getElementById("conversationsPanel");
 const btnChatConversation = document.getElementById("btnChatConversation");
 let deleteMode = false;
 let deleteMessageMode = false;
+let selectedMessageIds = new Set();
 let currentUser = null;
 let selectedUser = null;
 let currentConversationId = null;
@@ -554,22 +555,32 @@ function displayMessages(messages) {
         const messageWrapper =
             document.createElement("div");
 
-        const checkbox =
-            document.createElement("input");
+        const checkbox = document.createElement("input");
 
         checkbox.type = "checkbox";
-
         checkbox.className =
             "delete-message-checkbox";
+        checkbox.dataset.messageId =
+            message.id;
 
-        // Afficher ou cacher selon le mode actuel
+        // Afficher ou cacher selon le mode suppression
         if (!deleteMessageMode) {
             checkbox.classList.add("hidden");
         }
 
-        checkbox.dataset.messageId =
-            message.id;
+        // Restaurer la sélection après un refresh
+        if (selectedMessageIds.has(message.id)) {
+            checkbox.checked = true;
+        }
 
+        // Quand l'utilisateur coche / décoche
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                selectedMessageIds.add(message.id);
+            } else {
+                selectedMessageIds.delete(message.id);
+            }
+        });
         messageWrapper.appendChild(checkbox);
 
 
@@ -902,9 +913,7 @@ buttonSuppression.addEventListener("click", () => {
 
 
 async function deleteMessage(messageId) {
-
     const token = localStorage.getItem("token");
-
     try {
 
         const response = await fetch(
@@ -920,13 +929,9 @@ async function deleteMessage(messageId) {
         );
 
         const data = await response.json();
-
         console.log("RÉPONSE SUPPRESSION MESSAGE :", data);
-
         return data;
-
     } catch (error) {
-
         console.error(
             "ERREUR SUPPRESSION MESSAGE :",
             error
@@ -935,14 +940,40 @@ async function deleteMessage(messageId) {
 }
 
 
+
+
+function getSelectedMessages() {
+
+    const selectedCheckboxes =
+        document.querySelectorAll(".delete-message-checkbox:checked");
+
+    const messageIds = [];
+
+    selectedCheckboxes.forEach(checkbox => {
+
+        const messageId =
+            checkbox.dataset.messageId;
+
+        if (messageId) {
+            messageIds.push(messageId);
+        }
+    });
+
+    console.log("MESSAGES SÉLECTIONNÉS :", messageIds);
+
+    return messageIds;
+}
+
+
+buttonDeleteMessage.addEventListener("click", async () => {
+});
+
+
+
+
 buttonDeleteMessage.addEventListener(
     "click",
     async () => {
-
-        // =====================================
-        // PREMIER CLIC : ACTIVER LE MODE
-        // =====================================
-
         if (!deleteMessageMode) {
 
             deleteMessageMode = true;
@@ -965,11 +996,6 @@ buttonDeleteMessage.addEventListener(
             return;
         }
 
-
-        // =====================================
-        // DEUXIÈME CLIC : RÉCUPÉRER LES MESSAGES
-        // =====================================
-
         const messageIds =
             getSelectedMessages();
 
@@ -977,12 +1003,6 @@ buttonDeleteMessage.addEventListener(
             "IDS DES MESSAGES À SUPPRIMER :",
             messageIds
         );
-
-
-        // =====================================
-        // AUCUN MESSAGE SÉLECTIONNÉ
-        // → SIMPLEMENT QUITTER LE MODE
-        // =====================================
 
         if (messageIds.length === 0) {
 
@@ -994,25 +1014,15 @@ buttonDeleteMessage.addEventListener(
                 );
 
             checkboxes.forEach(checkbox => {
-
                 checkbox.checked = false;
-
                 checkbox.classList.add("hidden");
-
             });
-
             console.log(
                 "MODE SUPPRESSION DÉSACTIVÉ"
             );
 
             return;
         }
-
-
-        // =====================================
-        // DES MESSAGES SONT SÉLECTIONNÉS
-        // → SUPPRIMER
-        // =====================================
 
         for (const messageId of messageIds) {
 
@@ -1024,17 +1034,7 @@ buttonDeleteMessage.addEventListener(
             "MESSAGES SUPPRIMÉS"
         );
 
-
-        // =====================================
-        // QUITTER LE MODE SUPPRESSION
-        // =====================================
-
         deleteMessageMode = false;
-
-
-        // =====================================
-        // RECHARGER LES MESSAGES
-        // =====================================
 
         const messagesResponse =
             await getMessages(
@@ -1085,38 +1085,7 @@ btnChatConversation.addEventListener("click", () => {
 
 
 
-function startMessagesAutoRefresh() {
 
-    if (messagesRefreshInterval) {
-        clearInterval(messagesRefreshInterval);
-    }
-
-    messagesRefreshInterval = setInterval(async () => {
-
-        if (!currentConversationId) {
-            return;
-        }
-
-        try {
-
-            const messagesResponse =
-                await getMessages(currentConversationId);
-
-            const messages =
-                messagesResponse.data.messages;
-
-            displayMessages(messages);
-
-        } catch (error) {
-
-            console.error(
-                "Erreur lors de l'actualisation des messages :",
-                error
-            );
-        }
-
-    }, 2000);
-}
 
 
 
