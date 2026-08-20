@@ -38,6 +38,7 @@ let selectedMessageIds = new Set();
 let currentUser = null;
 let selectedUser = null;
 let currentConversationId = null;
+let selectedMessageForEdit = null;
 
 console.log("buttonDelete :", buttonDelete);
 console.log("buttonSuppression :", buttonSuppression)
@@ -397,7 +398,64 @@ async function sendMessage() {
 
         const token = localStorage.getItem("token");
 
-        // ENVOYER LE MESSAGE À L'API
+        // MODE MODIFICATION
+        if (selectedMessageForEdit !== null) {
+
+            console.log(
+                "MODIFICATION DU MESSAGE :",
+                selectedMessageForEdit
+            );
+
+            const response = await fetch(
+                `https://kadea-chat-api.onrender.com/messages/${selectedMessageForEdit}`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": "wksp_a10b83e341f516290964a08e66dba53d",
+                        "Authorization": `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        content: message
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            console.log(
+                "RÉPONSE MODIFICATION MESSAGE :",
+                data
+            );
+
+
+            // Vérifier si la modification a réussi
+            if (data.success) {
+
+                // Vider le champ
+                champSaisieMessage.value = "";
+
+                // Quitter le mode modification
+                selectedMessageForEdit = null;
+
+                // Recharger les messages
+                const messagesResponse =
+                    await getMessages(
+                        currentConversationId
+                    );
+
+                displayMessages(
+                    messagesResponse.data.messages
+                );
+            }
+
+            return;
+        }
+
+
+        // MODE NOUVEAU MESSAGE
         const response = await fetch(
             `https://kadea-chat-api.onrender.com/conversations/${currentConversationId}/messages`,
             {
@@ -417,7 +475,10 @@ async function sendMessage() {
 
         const data = await response.json();
 
-        console.log("RÉPONSE ENVOI MESSAGE :", data);
+        console.log(
+            "RÉPONSE ENVOI MESSAGE :",
+            data
+        );
 
 
         // Vérifier si l'envoi a réussi
@@ -426,9 +487,11 @@ async function sendMessage() {
             // Vider le champ
             champSaisieMessage.value = "";
 
-            // Recharger les messages de la conversation
+            // Recharger les messages
             const messagesResponse =
-                await getMessages(currentConversationId);
+                await getMessages(
+                    currentConversationId
+                );
 
             displayMessages(
                 messagesResponse.data.messages
@@ -438,7 +501,7 @@ async function sendMessage() {
     } catch (error) {
 
         console.error(
-            "Erreur lors de l'envoi du message :",
+            "Erreur lors de l'envoi ou de la modification du message :",
             error
         );
     }
@@ -586,9 +649,11 @@ function displayMessages(messages) {
 
         checkbox.dataset.messageId =
             message.id;
+
         if (!deleteMessageMode) {
             checkbox.classList.add("hidden");
         }
+
         if (selectedMessageIds.has(message.id)) {
             checkbox.checked = true;
         }
@@ -597,18 +662,23 @@ function displayMessages(messages) {
         checkbox.addEventListener("change", () => {
 
             if (checkbox.checked) {
+
                 selectedMessageIds.add(message.id);
+
             } else {
+
                 selectedMessageIds.delete(message.id);
+
             }
 
         });
 
+
         messageWrapper.appendChild(checkbox);
+
 
         const isMyMessage =
             message.senderId === currentUser.id;
-
 
         if (isMyMessage) {
 
@@ -622,12 +692,21 @@ function displayMessages(messages) {
 
         }
 
+
+        // ==============================
+        // CONTENEUR DU MESSAGE
+        // ==============================
+
         const messageContent =
             document.createElement("div");
 
         messageContent.className =
             "flex flex-col gap-1 min-w-0";
 
+
+        // ==============================
+        // TEXTE DU MESSAGE
+        // ==============================
 
         const messageText =
             document.createElement("p");
@@ -639,7 +718,7 @@ function displayMessages(messages) {
         if (isMyMessage) {
 
             messageText.className =
-                "px-3 py-2 bg-blue-500 text-white rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal min-w-0 max-w-full break-all";
+                "px-3 py-2 bg-blue-500 text-white rounded-tl-xl rounded-tr-xl rounded-br-lg break-words whitespace-normal min-w-0 max-w-full break-all cursor-pointer";
 
         } else {
 
@@ -666,9 +745,44 @@ function displayMessages(messages) {
         messageTime.className =
             "text-xs text-gray-500 self-end";
 
+        const editButton =
+            document.createElement("button");
+
+        editButton.textContent =
+            "Modifier";
+
+        editButton.type =
+            "button";
+
+        editButton.className =
+            "hidden text-sm text-blue-500 hover:text-blue-700 self-end";
+            if (selectedMessageForEdit === message.id) {
+                editButton.classList.remove("hidden");
+            }
+
+            editButton.addEventListener("click", () => {
+                selectedMessageForEdit = message.id;
+                champSaisieMessage.value = message.content;
+                champSaisieMessage.focus();
+            });
+
+        if (isMyMessage) {
+
+            messageText.addEventListener("click", () => {
+
+                selectedMessageForEdit = message.id;
+
+                editButton.classList.toggle("hidden");
+
+            });
+
+        }
+
         messageContent.appendChild(messageText);
 
         messageContent.appendChild(messageTime);
+
+        messageContent.appendChild(editButton);
 
         messageWrapper.appendChild(messageContent);
 
