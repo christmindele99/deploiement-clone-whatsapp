@@ -492,13 +492,13 @@ function displayMessages(messages) {
 
             // MESSAGE ENVOYÉ
             messageWrapper.className =
-                "flex self-start";
+                "flex self-end";
 
         } else {
 
             // MESSAGE REÇU
             messageWrapper.className =
-                "flex self-end";
+                "flex self-start";
         }
 
 
